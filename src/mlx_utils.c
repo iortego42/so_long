@@ -1,35 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   mlx_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iortego- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/30 19:56:01 by iortego-          #+#    #+#             */
-/*   Updated: 2023/05/31 20:20:18 by iortego-         ###   ########.fr       */
+/*   Created: 2023/05/31 20:17:02 by iortego-          #+#    #+#             */
+/*   Updated: 2023/05/31 20:20:08 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG
-# define SO_LONG
-# include "mlx.h"
+# include "so_long.h"
 
-typedef struct s_img {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}	t_img;
+void	put_pixel(t_img *d, int x, int y, int color)
+{
+	char	*dst;
 
-typedef	struct s_data {
-	int	x;
-	int	y;
-	int	offset;
-
-}	t_data;
-
-
-void	put_pixel(t_img *d, int x, int y, int color);
-
-#endif
+	dst = d->addr + (y * d->line_length + x * (d->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
