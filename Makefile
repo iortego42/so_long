@@ -1,4 +1,4 @@
-NAME= push_swap
+NAME= solong
 
 CC  = gcc
 AR = ar
@@ -17,23 +17,32 @@ LFTNAME = ft
 LFT = $(LFTPATH)/lib$(LFTNAME).a
 CFLAGS += -I $(LFTPATH)/include
 
+LDFLAGS += -L $(MLXPATH) -l$(MLXNAME)
+MLXPATH = minilib
+MLXNAME = mlx
+MLX = $(MLXPATH)/lib$(MLXNAME).a
+CFLAGS += -I $(MLXPATH) -framework OpenGL -framework AppKit
+
+
 SRCS =	\
+		so_long.c
+
 
 OBJS := $(addprefix $(OBJDIR)/,$(SRCS:%.c=%.o))
 
 all: $(NAME)
 
 sanitize: CFLAGS += -fsanitize=address -g3 
-sanitize: $(OBJS) $(LFTNAME)sanitize
+sanitize: $(OBJS) $(LFTNAME)sanitize $(MLX)
 	@echo "[$(NAME)]->>\033[34m [◊] SANITIZE MODE ON [◊]\033[0m"
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS) $(CFLAGS)
 
 debug: CFLAGS += -g3
-debug: $(OBJS) $(LFTNAME)debug
+debug: $(OBJS) $(LFTNAME)debug $(MLX)
 	@echo "[$(NAME)]->>\033[33m [∆] DEBUG MODE ON [∆]\033[0m"
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS)  
 
-$(NAME): $(OBJS) $(LFT) 
+$(NAME): $(OBJS) $(LFT) $(MLX) 
 	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LDFLAGS) 
 
 $(LFTNAME)debug:
@@ -45,6 +54,9 @@ $(LFTNAME)sanitize:
 $(LFT): 
 	make -C $(LFTPATH)	
 
+$(MLX):
+	make -C $(MLXPATH)
+
 $(OBJDIR): 
 	mkdir $@
 
@@ -53,6 +65,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 
 clean:
 	make fclean -C $(LFTPATH)
+	make clean -C $(MLXPATH)
 	$(RM) $(OBJDIR)
 
 fclean: clean

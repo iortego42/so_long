@@ -6,7 +6,7 @@
 /*   By: iortego- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 19:55:39 by iortego-          #+#    #+#             */
-/*   Updated: 2023/05/31 20:25:21 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:19:55 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,12 @@ int	main(void)
 	t_img	img;
 
 	mlx = mlx_init();
+	img.path = "./xpm/pato.xpm";
 	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-	img.img = mlx_new_image(mlx, 1920, 1080);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-								&img.endian);
-	for (int i = 0; i < 200; i++)
-		for (int k = 0; k < 200; k++)
-			put_pixel(&img, i, k, 0x00FF0000);
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+
+
+	img.img = mlx_xpm_file_to_image(mlx, img.path, &img.width, &img.height);
+	mlx_put_image_to_window(mlx, mlx_win, img.img, 0,  1080 / 2 - img.height / 2);
+
 	mlx_loop(mlx);
 }
