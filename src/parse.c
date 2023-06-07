@@ -6,7 +6,7 @@
 /*   By: iortego- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 18:33:12 by iortego-          #+#    #+#             */
-/*   Updated: 2023/06/07 19:25:33 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/06/07 20:18:03 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,16 @@ t_bool	is_walled(t_map *map)
 		}
 		coor.y++;
 	}
+	return (TRUE);
+}
+
+t_bool	parse_map(t_map	*map)
+{
+	if (is_sym(map) == FALSE)
+		return (FALSE);
+	if (is_item(map) == FALSE)
+		return (FALSE);
+	if (is_walled(map) == FALSE)
+		return (FALSE);
 	return (TRUE);
 }

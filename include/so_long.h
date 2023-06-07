@@ -6,7 +6,7 @@
 /*   By: iortego- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 19:56:01 by iortego-          #+#    #+#             */
-/*   Updated: 2023/06/07 19:09:03 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/06/07 20:17:55 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 # define SO_LONG
 # define IMG_SIZE 60
 # define ITEMS "01CEP"
+# define ALLOWED_EXT ".ber"
+
 # include "mlx.h"
 # include "libft.h"
 # include <fcntl.h>
 # include "get_next_line.h"
 
 
-typedef enum {F,W,C,E,P, NITEMS} t_item;
+typedef enum {F,W,C,E,P, N_ITEMS} t_item;
 
 typedef struct s_coor {
 	int	x;
@@ -61,7 +63,7 @@ int		get_line_lenght(char	*line);
 t_bool	is_item(t_map	*map);
 t_bool	is_sym(t_map	*map);
 t_bool	is_walled(t_map	*map);
-t_map	parse_map(char	*path);
+t_bool	parse_map(t_map	*map);
 //
 //	Impresion del mapa 
 //

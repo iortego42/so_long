@@ -6,11 +6,12 @@
 /*   By: iortego- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 18:33:29 by iortego-          #+#    #+#             */
-/*   Updated: 2023/06/07 19:21:00 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/06/07 20:15:24 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "libft.h"
 # include "so_long.h"
 
 t_bool	is_sym(t_map *map)
@@ -40,6 +41,8 @@ t_map	*get_map(char *path)
 	t_map	*map;
 	char	*line;
 
+	if (extension(path, ALLOWED_EXT) == FALSE)
+		return (NULL);
 	index = 0;
 	map = (t_map *) malloc(sizeof(t_map));
 	map->map = NULL;
