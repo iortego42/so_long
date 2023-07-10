@@ -1,14 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_utils.c                                        :+:      :+:    :+:   */
+/*   key_mapping.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iortego- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/31 20:17:02 by iortego-          #+#    #+#             */
-/*   Updated: 2023/06/08 17:38:28 by iortego-         ###   ########.fr       */
+/*   Created: 2023/06/29 18:06:24 by iortego-          #+#    #+#             */
+/*   Updated: 2023/07/10 19:06:30 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "so_long.h"
+#include "so_long.h"
+#include <stdio.h>
 
+
+int	listener(int keycode, t_mlx *mlx)
+{
+	printf("hello %d %p", keycode, mlx);
+	return (0);
+}

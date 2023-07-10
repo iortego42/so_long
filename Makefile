@@ -9,7 +9,7 @@ SRCDIR = src
 INCDIR = include 
 
 
-LDFLAGS = -L $(LFTPATH) -l$(LFTNAME)
+LDFLAGS = -L $(LFTPATH) -l$(LFTNAME) -framework OpenGL -framework AppKit
 # CFLAGS = -Wall -Wextra -Werror  -I $(INCDIR) -fsanitize=address
 CFLAGS = -Wall -Wextra -Werror  -I $(INCDIR)
 LFTPATH = libft
@@ -21,10 +21,16 @@ LDFLAGS += -L $(MLXPATH) -l$(MLXNAME)
 MLXPATH = minilib
 MLXNAME = mlx
 MLX = $(MLXPATH)/lib$(MLXNAME).a
-CFLAGS += -I $(MLXPATH) -framework OpenGL -framework AppKit
+CFLAGS += -I $(MLXPATH) 
 
 
-SRCS =	\
+SRCS =  error_handling.c \
+		map.c \
+		mlx_utils.c \
+		file_managment.c \
+		parse.c \
+		image_parser.c \
+		key_mapping.c \
 		so_long.c
 
 
@@ -35,7 +41,7 @@ all: $(NAME)
 sanitize: CFLAGS += -fsanitize=address -g3 
 sanitize: $(OBJS) $(LFTNAME)sanitize $(MLX)
 	@echo "[$(NAME)]->>\033[34m [◊] SANITIZE MODE ON [◊]\033[0m"
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS) $(CFLAGS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS) 
 
 debug: CFLAGS += -g3
 debug: $(OBJS) $(LFTNAME)debug $(MLX)
@@ -43,7 +49,7 @@ debug: $(OBJS) $(LFTNAME)debug $(MLX)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS)  
 
 $(NAME): $(OBJS) $(LFT) $(MLX) 
-	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LDFLAGS) 
+	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LDFLAGS)
 
 $(LFTNAME)debug:
 	make -C $(LFTPATH) debug

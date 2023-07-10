@@ -6,11 +6,12 @@
 /*   By: iortego- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 19:55:39 by iortego-          #+#    #+#             */
-/*   Updated: 2023/06/01 18:19:55 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/07/10 18:54:40 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+#include "libft.h"
 
 // int	main(void)
 // {
@@ -30,17 +31,22 @@
 // }
 int	main(void)
 {
-	void	*mlx;
-	void	*mlx_win;
-	t_img	img;
-
-	mlx = mlx_init();
-	img.path = "./xpm/pato.xpm";
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-
-
-	img.img = mlx_xpm_file_to_image(mlx, img.path, &img.width, &img.height);
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0,  1080 / 2 - img.height / 2);
-
-	mlx_loop(mlx);
+	t_img		*imgs;
+	t_mlx		mlx;
+	t_map		*map;
+	t_player	one;
+	
+	mlx.mlx = mlx_init();
+	mlx.win = mlx_new_window(mlx.mlx, 1920, 1080, "Hello world!");
+	map = malloc(sizeof(t_map));	
+	if (!map)
+		return (printf("Ha fallao el maloc loko"),0); 
+	map = (t_map *) open_file(MAP_PATH, (void *)get_map);
+	imgs = get_imgs(mlx.mlx, "./img/");
+	if (!imgs)
+		return (1);
+	reload_map(*map, imgs, &one, mlx.mlx);
+	mlx_key_hook(mlx.win, listener, &mlx);
+	mlx_loop(mlx.mlx);
+	return(0);
 }
