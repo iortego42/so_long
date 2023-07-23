@@ -6,7 +6,7 @@
 /*   By: iortego- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 19:55:39 by iortego-          #+#    #+#             */
-/*   Updated: 2023/07/10 18:54:40 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:36:12 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(void)
 	t_img		*imgs;
 	t_mlx		mlx;
 	t_map		*map;
-	t_player	one;
+	t_player	*one;
 	
 	mlx.mlx = mlx_init();
 	mlx.win = mlx_new_window(mlx.mlx, 1920, 1080, "Hello world!");
@@ -45,8 +45,12 @@ int	main(void)
 	imgs = get_imgs(mlx.mlx, "./img/");
 	if (!imgs)
 		return (1);
-	reload_map(*map, imgs, &one, mlx.mlx);
-	mlx_key_hook(mlx.win, listener, &mlx);
-	mlx_loop(mlx.mlx);
+	one = player_constructor(*map, &imgs[P]);
+	if (one == NULL)
+		return (1);
+	reload_map(*map, imgs, one, mlx.mlx);
+	// mlx_key_hook(mlx.win, listener, &mlx);
+	//
+	// mlx_loop(mlx.mlx);
 	return(0);
 }

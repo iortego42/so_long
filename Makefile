@@ -31,6 +31,7 @@ SRCS =  error_handling.c \
 		parse.c \
 		image_parser.c \
 		key_mapping.c \
+		player.c \
 		so_long.c
 
 

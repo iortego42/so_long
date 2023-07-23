@@ -6,7 +6,7 @@
 /*   By: iortego- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 18:33:29 by iortego-          #+#    #+#             */
-/*   Updated: 2023/07/10 19:22:00 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/07/23 12:18:41 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ t_map	*get_map(int fd)
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		map->map = (char	**)ft_realloc(map->map, sizeof(char	**) * (index + 2));
+		map->map = (char	**)ft_realloc(map->map,
+				sizeof(char **) * (index + 2), sizeof(char	**) * (index + 1));
 		if (map->map == NULL)
 			return(clear_matrix((void	***)&map->map, index), NULL);
 		map->map[index] = line;

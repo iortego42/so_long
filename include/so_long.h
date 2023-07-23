@@ -6,7 +6,7 @@
 /*   By: iortego- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 19:56:01 by iortego-          #+#    #+#             */
-/*   Updated: 2023/07/10 18:54:06 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/07/23 16:27:56 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_img {
 }	t_img;
 
 typedef struct s_player {
-	void	*img;
+	t_img	*img_s;
 	t_coor	next;
 	t_coor	pos;
 }	t_player;
@@ -60,6 +60,14 @@ typedef	struct s_mlx {
 	void	*mlx;
 	void	*win;
 }	t_mlx;
+
+typedef	struct s_game {
+	int			collectionable;
+	t_bool		can_exit;
+	int			moves;
+	t_player	*player;
+	t_map		*map;	
+}	t_game;
 
 
 static const char* g_imgfiles[N_ITEMS] = 
@@ -91,9 +99,13 @@ t_bool	parse_map(t_map	*map);
 t_img	*get_imgs(t_mlx	*mlx, char	*pathtoimgs);
 void	print_floor(t_map	map, t_img	floor, t_mlx	*mlx);
 void	print_static(t_map	map, t_img	*images, t_mlx	*mlx);
-void	print_player(t_map	map, t_player	*one, t_mlx	*mlx);
+void	print_player(t_player	*one, t_mlx	*mlx);
 void	reload_map(t_map	map, t_img *images, t_player *one, t_mlx	*mlx);
 //
+//	Jugador
+//
+t_player	*player_constructor(t_map	map, t_img	*img);
+void		collect(t_game	game);
 //	Movimiento del jugador
 //
 int		listener(int	keycode, t_mlx *mlx);
