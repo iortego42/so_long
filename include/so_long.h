@@ -16,7 +16,7 @@
 # define IMG_HEIGHT 50
 # define ITEMS "01CEP"
 # define ALLOWED_EXT ".ber"
-# define PATH "/Users/iortego-/github/so_long/"
+# define PATH "/Users/nachh/github/so_long/"
 # define MAP_PATH "map.ber"
 
 
@@ -63,10 +63,10 @@ typedef	struct s_mlx {
 
 typedef	struct s_game {
 	int			collectionable;
-	t_bool		can_exit;
+	int			players;
 	int			moves;
 	t_player	*player;
-	t_map		*map;	
+	t_map		*map;
 }	t_game;
 
 
@@ -105,13 +105,14 @@ void	reload_map(t_map	map, t_img *images, t_player *one, t_mlx	*mlx);
 //	Jugador
 //
 t_player	*player_constructor(t_map	map, t_img	*img);
-void		collect(t_game	game);
+void		collect(t_game	*game);
 //	Movimiento del jugador
 //
-int		listener(int	keycode, t_mlx *mlx);
-t_bool	check_move(t_map	map, t_player	one); 
-t_bool	move_player(t_map	*map, t_player	*one, t_mlx	*mlx);
-//
+int			listener(int	keycode, t_mlx *mlx);
+t_bool		is_reacheble(t_coor	pos, t_coor	next);
+t_bool		check_move(t_game	*game, t_coor	next);
+t_bool		move_player(t_map	*map, t_player	*one, t_mlx	*mlx);
+//1
 // Errores
 //
 void	clear_strmap(t_map);

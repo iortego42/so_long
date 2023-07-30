@@ -42,6 +42,8 @@ int	main(void)
 	if (!map)
 		return (printf("Ha fallao el maloc loko"),0); 
 	map = (t_map *) open_file(MAP_PATH, (void *)get_map);
+	if (map == NULL)
+		return (1);
 	imgs = get_imgs(mlx.mlx, "./img/");
 	if (!imgs)
 		return (1);

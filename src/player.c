@@ -39,3 +39,25 @@ t_player	*player_constructor(t_map	map, t_img *img)
 	self->img_s = img;
 	return (self); 
 }
+
+t_bool is_reacheble(t_coor	pos, t_coor	next)
+{
+	if ((pos.x == next.x + 1 || pos.x == next.x - 1) && pos.y == next.y)
+		return (TRUE);
+	else if ((pos.x == next.x + 1 || pos.x == next.x - 1) && pos.y == next.y)
+		return (TRUE);
+	return (FALSE);
+}
+
+t_bool	check_move(t_game	*game, t_coor	next)
+{
+	t_item	position;
+	
+	position =  game->map->map[next.y][next.x];
+
+	if (position == ITEMS[W] || !is_reacheble(game->player->pos, next))
+		return (FALSE);
+	else if (position == ITEMS[E] && game->collectionable != 0)
+		return (FALSE);
+	return (TRUE);
+}

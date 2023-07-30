@@ -62,6 +62,28 @@ t_bool	is_walled(t_map *map)
 	return (TRUE);
 }
 
+t_bool	is_one_player(t_map	*map)
+{
+	t_coor	coor;
+	int		players;
+
+	coor.y = 0;
+	while (map->map[coor.y])
+	{
+		coor.x = 0;
+		while (map->map[coor.y][coor.x] != 0)
+		{
+			if (map->map[coor.y][coor.x] == ITEMS[P])
+				players++;
+			if (players > 1)
+				return (FALSE);
+			coor.x++;
+		}
+		coor.y++;
+	}
+	return (TRUE);
+}
+
 t_bool	parse_map(t_map	*map)
 {
 	if (is_sym(map) == FALSE)
@@ -69,6 +91,8 @@ t_bool	parse_map(t_map	*map)
 	if (is_item(map) == FALSE)
 		return (FALSE);
 	if (is_walled(map) == FALSE)
+		return (FALSE);
+	if (is_one_player(map) == FALSE)
 		return (FALSE);
 	return (TRUE);
 }
