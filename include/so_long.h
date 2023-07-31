@@ -18,6 +18,12 @@
 # define ALLOWED_EXT ".ber"
 # define PATH "/Users/nachh/github/so_long/"
 # define MAP_PATH "map.ber"
+# define IMG_PATH "./img/"
+# define KEY_ESC	53
+# define KEY_W		13
+# define KEY_A		0
+# define KEY_S		1
+# define KEY_D		2
 
 
 # include "mlx.h"
@@ -32,8 +38,8 @@
 typedef enum {F,W,C,E,P, N_ITEMS} t_item;
 
 typedef struct s_coor {
-	int	x;
 	int	y;
+	int	x;
 }	t_coor;
 typedef struct s_img {
 	void	*img;
@@ -44,15 +50,15 @@ typedef struct s_img {
 
 typedef struct s_player {
 	t_img	*img_s;
-	t_coor	next;
 	t_coor	pos;
+	int		move_counter;
 }	t_player;
 
 typedef	struct s_map {
 	char	**map;
 	t_coor	dim;
 	int		item;
-	t_bool	exit;
+	t_coor	exit;
 	char 	*path;
 }	t_map;
 
@@ -64,9 +70,11 @@ typedef	struct s_mlx {
 typedef	struct s_game {
 	int			collectionable;
 	int			players;
-	int			moves;
+	t_bool		can_exit;
 	t_player	*player;
 	t_map		*map;
+	t_mlx		*mlx;
+	t_img		*imgs;
 }	t_game;
 
 
@@ -78,7 +86,7 @@ static const char* g_imgfiles[N_ITEMS] =
 		[E] = "exit.xpm",
 		[P] = "player.xpm"
 };
-
+t_game	*init();
 //
 //	Parseo del mapa
 //		- Simetria
@@ -86,12 +94,13 @@ static const char* g_imgfiles[N_ITEMS] =
 //		- Salida valida
 //		- Rodeado de pared
 //	
-void	*open_file(char *file, void	*(*fun)(int));
+void	*open_file(char *file, void	*(*fun)(int)); 
 t_map	*get_map(int	fd);
 int		get_line_lenght(char	*line);
-t_bool	is_item(t_map	*map);
+t_bool	is_valid_char(t_map	*map);
 t_bool	is_sym(t_map	*map);
 t_bool	is_walled(t_map	*map);
+t_bool	is_one_player_exit(t_map	*map);
 t_bool	parse_map(t_map	*map);
 //
 //	Impresion del mapa 
@@ -108,11 +117,12 @@ t_player	*player_constructor(t_map	map, t_img	*img);
 void		collect(t_game	*game);
 //	Movimiento del jugador
 //
-int			listener(int	keycode, t_mlx *mlx);
-t_bool		is_reacheble(t_coor	pos, t_coor	next);
-t_bool		check_move(t_game	*game, t_coor	next);
-t_bool		move_player(t_map	*map, t_player	*one, t_mlx	*mlx);
-//1
+int			listener(int	keycode, t_game	*game);
+t_bool		is_reacheble(t_coor	pos, t_coor	next_pos);
+t_bool		check_move(t_game	*game, t_coor	next_pos);
+void		move_player(t_game	*game, t_coor	move);
+void		print_moves(int	moves);
+//
 // Errores
 //
 void	clear_strmap(t_map);

@@ -22,7 +22,8 @@ int	get_line_lenght(char *line)
 		len++;
 	return (len);
 }
-t_bool	is_item(t_map	*map)
+
+t_bool	is_valid_char(t_map	*map)
 {
 	t_coor	coor;
 
@@ -62,11 +63,14 @@ t_bool	is_walled(t_map *map)
 	return (TRUE);
 }
 
-t_bool	is_one_player(t_map	*map)
+t_bool	is_one_player_exit(t_map	*map)
 {
 	t_coor	coor;
 	int		players;
+	int		exit;
 
+	players = 0;
+	exit = 0;
 	coor.y = 0;
 	while (map->map[coor.y])
 	{
@@ -75,24 +79,26 @@ t_bool	is_one_player(t_map	*map)
 		{
 			if (map->map[coor.y][coor.x] == ITEMS[P])
 				players++;
-			if (players > 1)
+			if (map->map[coor.y][coor.x] == ITEMS[E])
+				exit++;
+			if (players > 1 || exit > 1)
 				return (FALSE);
 			coor.x++;
 		}
 		coor.y++;
 	}
 	return (TRUE);
-}
+}         
 
 t_bool	parse_map(t_map	*map)
 {
 	if (is_sym(map) == FALSE)
 		return (FALSE);
-	if (is_item(map) == FALSE)
+	if (is_valid_char(map) == FALSE)
 		return (FALSE);
 	if (is_walled(map) == FALSE)
 		return (FALSE);
-	if (is_one_player(map) == FALSE)
+	if (is_one_player_exit(map) == FALSE)
 		return (FALSE);
 	return (TRUE);
 }

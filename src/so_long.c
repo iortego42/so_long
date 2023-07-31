@@ -29,29 +29,37 @@
 // 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 // 								&img.endian);
 // }
+t_game	*init()
+{
+	t_game	*game;
+
+	game = (t_game	*)malloc(sizeof(t_game));
+	if (!game)
+		exit(1);
+	game->mlx = (t_mlx	*)malloc(sizeof(t_mlx));
+	if (!game->mlx)
+		exit(1);
+	game->mlx->mlx = mlx_init();
+	game->mlx->win = mlx_new_window(game->mlx->mlx, 1920, 1080, "so_long");
+	game->map = open_file(MAP_PATH, (void	*)get_map);
+	if (!game->map)
+		exit(1);
+	game->imgs = get_imgs(game->mlx, IMG_PATH);
+	if (!game->imgs)
+		exit(1);
+	game->player = player_constructor(*game->map, &game->imgs[P]);
+	if (!game->player)
+		exit(1);
+	return (game);
+}
+
 int	main(void)
 {
-	t_img		*imgs;
-	t_mlx		mlx;
-	t_map		*map;
-	t_player	*one;
-	
-	mlx.mlx = mlx_init();
-	mlx.win = mlx_new_window(mlx.mlx, 1920, 1080, "Hello world!");
-	map = malloc(sizeof(t_map));	
-	if (!map)
-		return (printf("Ha fallao el maloc loko"),0); 
-	map = (t_map *) open_file(MAP_PATH, (void *)get_map);
-	if (map == NULL)
-		return (1);
-	imgs = get_imgs(mlx.mlx, "./img/");
-	if (!imgs)
-		return (1);
-	one = player_constructor(*map, &imgs[P]);
-	if (one == NULL)
-		return (1);
-	reload_map(*map, imgs, one, mlx.mlx);
-	// mlx_key_hook(mlx.win, listener, &mlx);
+	t_game		*game;
+
+	game = init();
+	mlx_key_hook(game->mlx->win, listener, game);
+	reload_map(*game->map, game->imgs, game->player, game->mlx->mlx);
 	//
 	// mlx_loop(mlx.mlx);
 	return(0);

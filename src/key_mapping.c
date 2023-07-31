@@ -14,8 +14,17 @@
 #include <stdio.h>
 
 
-int	listener(int keycode, t_mlx *mlx)
+int	listener(int keycode, t_game	*game)
 {
-	printf("hello %d %p", keycode, mlx);
+	if (keycode == KEY_ESC)
+		exit(0);
+	if (keycode == KEY_W)
+		move_player(game, (t_coor){.y = 1, .x = 0});
+	if (keycode == KEY_S)
+		move_player(game, (t_coor){.y = -1, .x = 0});
+	if (keycode == KEY_A)
+		move_player(game, (t_coor){.y = 0, .x = -1});
+	if (keycode == KEY_D)
+		move_player(game, (t_coor){.y = 0, .x = 1});
 	return (0);
 }
