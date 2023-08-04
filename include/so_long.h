@@ -10,16 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG
-# define SO_LONG
+#ifndef SO_LONG_H
+# define SO_LONG_H
 # define IMG_WIDTH 50
 # define IMG_HEIGHT 50
 # define ITEMS "01CEP"
 # define ALLOWED_EXT ".ber"
-# define PATH "/Users/nachh/github/so_long/"
-# define MAP_PATH "map.ber"
+# define PATH "/Users/iortego-/github/so_long/"
+# define MAP_PATH "./map.ber"
 # define IMG_PATH "./img/"
 # define KEY_ESC	53
+# define CLOSE_WIN	17
 # define KEY_W		13
 # define KEY_A		0
 # define KEY_S		1
@@ -35,12 +36,13 @@
 
 
 
-typedef enum {F,W,C,E,P, N_ITEMS} t_item;
+typedef enum s_item {F,W,C,E,P, N_ITEMS}	t_item;
 
 typedef struct s_coor {
 	int	y;
 	int	x;
 }	t_coor;
+
 typedef struct s_img {
 	void	*img;
 	char	*path;
@@ -57,7 +59,7 @@ typedef struct s_player {
 typedef	struct s_map {
 	char	**map;
 	t_coor	dim;
-	int		item;
+	int		items;
 	t_coor	exit;
 	char 	*path;
 }	t_map;
@@ -68,7 +70,6 @@ typedef	struct s_mlx {
 }	t_mlx;
 
 typedef	struct s_game {
-	int			collectionable;
 	int			players;
 	t_bool		can_exit;
 	t_player	*player;
@@ -80,11 +81,11 @@ typedef	struct s_game {
 
 static const char* g_imgfiles[N_ITEMS] = 
 {
-		[F] = "floor.xpm",
-		[W] = "wall.xpm",
-		[C] = "collectionable.xpm",
-		[E] = "exit.xpm",
-		[P] = "player.xpm"
+	[C] = "floor.xpm",
+	[P] = "wall.xpm",
+	[F] = "collectionable.xpm",
+	[W] = "exit.xpm",
+	[E] = "player.xpm"
 };
 t_game	*init();
 //
@@ -105,26 +106,28 @@ t_bool	parse_map(t_map	*map);
 //
 //	Impresion del mapa 
 //
+int		get_items(t_map	map);
 t_img	*get_imgs(t_mlx	*mlx, char	*pathtoimgs);
 void	print_floor(t_map	map, t_img	floor, t_mlx	*mlx);
 void	print_static(t_map	map, t_img	*images, t_mlx	*mlx);
 void	print_player(t_player	*one, t_mlx	*mlx);
-void	reload_map(t_map	map, t_img *images, t_player *one, t_mlx	*mlx);
+int		reload_map(t_game	*game);
 //
 //	Jugador
 //
 t_player	*player_constructor(t_map	map, t_img	*img);
 void		collect(t_game	*game);
+int			is_exit(t_game	*game);
 //	Movimiento del jugador
 //
 int			listener(int	keycode, t_game	*game);
 t_bool		is_reacheble(t_coor	pos, t_coor	next_pos);
 t_bool		check_move(t_game	*game, t_coor	next_pos);
+t_bool		check_map(t_map *map, t_coor pos, t_bool *exit_is_reach);
 void		move_player(t_game	*game, t_coor	move);
 void		print_moves(int	moves);
 //
 // Errores
 //
-void	clear_strmap(t_map);
 void	clear_matrix(void	***m, int index);
 #endif

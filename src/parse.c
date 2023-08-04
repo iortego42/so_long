@@ -28,10 +28,10 @@ t_bool	is_valid_char(t_map	*map)
 	t_coor	coor;
 
 	coor.y = 0;
-	while (map->map[coor.y] != NULL) 
+	while (map->map[coor.y] != NULL)
 	{
 		coor.x = 0;
-		while (map->map[coor.y][coor.x] != 0)
+		while (map->map[coor.y][coor.x] != '\n')
 		{
 			if (ft_strchr(ITEMS, map->map[coor.y][coor.x]) == NULL)
 				return (FALSE);
@@ -39,7 +39,7 @@ t_bool	is_valid_char(t_map	*map)
 		}
 		coor.y++;
 	}
-	return (TRUE); 
+	return (TRUE);
 }
 
 t_bool	is_walled(t_map *map)
@@ -47,13 +47,13 @@ t_bool	is_walled(t_map *map)
 	t_coor	coor;
 
 	coor.y = 0;
-	while (map->map[coor.y] != NULL) 
+	while (map->map[coor.y] != NULL)
 	{
 		coor.x = 0;
-		while (map->map[coor.y][coor.x] != 0)
+		while (map->map[coor.y][coor.x] != '\n')
 		{
-			if (coor.x == 0 || coor.x == map->dim.x - 1 ||
-				coor.y == 0 || coor.y == map->dim.y - 1)
+			if (coor.x == 0 || coor.x == map->dim.x - 1
+				|| coor.y == 0 || coor.y == map->dim.y - 1)
 				if (map->map[coor.y][coor.x] != ITEMS[W])
 					return (FALSE);
 			coor.x++;
@@ -75,7 +75,7 @@ t_bool	is_one_player_exit(t_map	*map)
 	while (map->map[coor.y])
 	{
 		coor.x = 0;
-		while (map->map[coor.y][coor.x] != 0)
+		while (map->map[coor.y][coor.x] != '\n')
 		{
 			if (map->map[coor.y][coor.x] == ITEMS[P])
 				players++;
@@ -88,17 +88,17 @@ t_bool	is_one_player_exit(t_map	*map)
 		coor.y++;
 	}
 	return (TRUE);
-}         
+}
 
 t_bool	parse_map(t_map	*map)
 {
 	if (is_sym(map) == FALSE)
-		return (FALSE);
+		return (printf("issim"),FALSE);
 	if (is_valid_char(map) == FALSE)
-		return (FALSE);
+		return (printf("valid"),FALSE);
 	if (is_walled(map) == FALSE)
-		return (FALSE);
+		return (printf("walled"),FALSE);
 	if (is_one_player_exit(map) == FALSE)
-		return (FALSE);
+		return (printf("oneplayer"),FALSE);
 	return (TRUE);
 }

@@ -13,7 +13,7 @@
 #include "get_next_line.h"
 #include "libft.h"
 #include "mlx.h"
-# include "so_long.h"
+#include "so_long.h"
 
 
 
@@ -36,7 +36,7 @@ t_bool	is_sym(t_map *map)
 	}
 	map->dim.x = len;
 	map->dim.y = index;
-	return	(TRUE);
+	return (TRUE);
 }
 
 t_img	*get_imgs(t_mlx	*mlx, char	*pathtoimgs)
@@ -45,28 +45,29 @@ t_img	*get_imgs(t_mlx	*mlx, char	*pathtoimgs)
 	t_item	item;
 
 	item = F;
-	images = (t_img	*) malloc(sizeof(t_img) * N_ITEMS);
+	images = (t_img *) malloc(sizeof(t_img) * N_ITEMS);
 	if (images == NULL)
 		return (NULL);
 	while (item < N_ITEMS)
 	{
 		images[item].path = ft_strjoin(pathtoimgs, g_imgfiles[item]);
 		images[item].img = mlx_xpm_file_to_image(mlx->mlx,
-			images[item].path, 
-			&images[item].width, &images[item].height);
+				images[item].path,
+				&images[item].width, &images[item].height);
 		free(images[item].path);
 		images[item].path = NULL;
-		if (images[item].img == NULL) {
-			while (item-- >= 0) 
+		if (images[item].img == NULL)
+		{
+			while (item-- >= 0)
 				free(images[item].img);
-			return(free(images), NULL);
+			return (free(images), NULL);
 		}
 		item++;
 	}
 	return (images);
 }
 
-void  *open_file(char *file, void *(*fun)(int))
+void	*open_file(char *file, void *(*fun)(int))
 {
 	int		fd;
 	void	*data;
@@ -89,7 +90,7 @@ void  *open_file(char *file, void *(*fun)(int))
 		return (NULL);
 }
 
-t_map	*get_map(int fd) 
+t_map	*get_map(int fd)
 {
 	int		index;
 	t_map	*map;
@@ -104,15 +105,16 @@ t_map	*get_map(int fd)
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		map->map = (char	**)ft_realloc(map->map,
-				sizeof(char **) * (index + 2), sizeof(char	**) * (index + 1));
+		map->map = (char **)ft_realloc(map->map,
+				sizeof(char **) * (index + 2), sizeof(char **) * (index + 1));
 		if (map->map == NULL)
-			return(clear_matrix((void	***)&map->map, index), NULL);
+			return (clear_matrix((void ***)&map->map, index), NULL);
 		map->map[index] = line;
 		index++;
 		line = get_next_line(fd);
 	}
 	map->map[index] = NULL;
 	map->dim.y = index;
+	map->items = get_items(*map);
 	return (map);
 }
