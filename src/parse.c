@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iortego- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 18:33:12 by iortego-          #+#    #+#             */
-/*   Updated: 2023/06/07 20:18:03 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/08/13 18:29:01 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,15 @@ t_bool	is_one_player_exit(t_map	*map)
 	return (TRUE);
 }
 
-t_bool	parse_map(t_map	*map)
+t_err_code	parse_map(t_map	*map)
 {
 	if (is_sym(map) == FALSE)
-		return (printf("issim"),FALSE);
+		return (EC_NOT_SYM);
 	if (is_valid_char(map) == FALSE)
-		return (printf("valid"),FALSE);
+		return (EC_INVALID_CHAR);
 	if (is_walled(map) == FALSE)
-		return (printf("walled"),FALSE);
+		return (EC_WALLED);
 	if (is_one_player_exit(map) == FALSE)
-		return (printf("oneplayer"),FALSE);
-	return (TRUE);
+		return (EC_NO_PLAYER);
+	return (OK);
 }

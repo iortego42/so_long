@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_managment.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iortego- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 18:33:29 by iortego-          #+#    #+#             */
-/*   Updated: 2023/07/23 12:18:41 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/08/13 18:19:05 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ void	*open_file(char *file, void *(*fun)(int))
 	void	*data;
 	char	*path;
 
-	if (fun == NULL)	
-		return NULL;
+	if (fun == NULL)
+		return (NULL);
 	path = ft_strjoin(PATH, file);
 	if (extension(path, ALLOWED_EXT) == FALSE)
-		return (free(path), NULL);	
+		return (free(path), NULL);
 	fd = open(path, O_RDONLY);
 	free(path);
 	if (fd > 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iortego- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 19:56:01 by iortego-          #+#    #+#             */
-/*   Updated: 2023/07/23 16:27:56 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/08/13 18:50:10 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,28 @@
 
 
 
-typedef enum s_item {F,W,C,E,P, N_ITEMS}	t_item;
+typedef enum s_item {
+	F,
+	W,
+	C,
+	E,
+	P,
+	N_ITEMS
+}	t_item;
+typedef enum s_err {
+	OK,
+	EC_UNDEFINED,
+	EC_INVALID_CHAR,
+	EC_NO_EXIT,
+	EC_NO_PLAYER,
+	EC_WALLED,
+	EC_NOT_SYM,
+	EC_MALLOC,
+	EC_NOT_VALID_MAP,
+	EC_NOT_FILE,
+	EC_NOT_IMG,
+	EC_SIZE
+}	t_err_code;
 
 typedef struct s_coor {
 	int	y;
@@ -56,21 +77,20 @@ typedef struct s_player {
 	int		move_counter;
 }	t_player;
 
-typedef	struct s_map {
+typedef struct s_map {
 	char	**map;
 	t_coor	dim;
 	int		items;
 	t_coor	exit;
-	char 	*path;
+	char	*path;
 }	t_map;
 
-typedef	struct s_mlx {
+typedef struct s_mlx {
 	void	*mlx;
 	void	*win;
 }	t_mlx;
 
-typedef	struct s_game {
-	int			players;
+typedef struct s_game {
 	t_bool		can_exit;
 	t_player	*player;
 	t_map		*map;
@@ -79,15 +99,28 @@ typedef	struct s_game {
 }	t_game;
 
 
-static const char* g_imgfiles[N_ITEMS] = 
-{
-	[C] = "floor.xpm",
-	[P] = "wall.xpm",
-	[F] = "collectionable.xpm",
-	[W] = "exit.xpm",
-	[E] = "player.xpm"
+
+static const char* g_imgfiles[N_ITEMS] = {
+[C] = "floor.xpm",
+[P] = "wall.xpm",
+[F] = "collectionable.xpm",
+[W] = "exit.xpm",
+[E] = "player.xpm"
 };
-t_game	*init();
+
+static const char* g_error_mess[EC_SIZE] = {
+[EC_UNDEFINED] = "\033[35mUndefined\033[0m\n",
+[EC_INVALID_CHAR] = "Invalid char on map\n",
+[EC_NO_EXIT] = "Invalid number of exit on map\n",
+[EC_NO_PLAYER] = "Invalid number of player on map\n",
+[EC_WALLED] = "Map not walled\n",
+[EC_NOT_SYM] = "Map not symmetric\n",
+[EC_MALLOC] = "Malloc\n",
+[EC_NOT_VALID_MAP] = "Not valid map\n",
+[EC_NOT_FILE] = "File not found\n",
+[EC_NOT_IMG] = "Could not find images\n",
+};
+t_err_code	init(t_game *game);
 //
 //	Parseo del mapa
 //		- Simetria
@@ -95,23 +128,25 @@ t_game	*init();
 //		- Salida valida
 //		- Rodeado de pared
 //	
-void	*open_file(char *file, void	*(*fun)(int)); 
-t_map	*get_map(int	fd);
-int		get_line_lenght(char	*line);
-t_bool	is_valid_char(t_map	*map);
-t_bool	is_sym(t_map	*map);
-t_bool	is_walled(t_map	*map);
-t_bool	is_one_player_exit(t_map	*map);
-t_bool	parse_map(t_map	*map);
+void		*open_file(char *file, void	*(*fun)(int));
+t_map		*get_map(int fd);
+int			get_line_lenght(char	*line);
+t_bool		is_valid_char(t_map	*map);
+t_bool		is_sym(t_map	*map);
+t_bool		is_walled(t_map	*map);
+t_bool		is_one_player_exit(t_map	*map);
+t_err_code	parse_map(t_map	*map);
+t_map		*copy_map(t_map map);
+t_bool		check_map(t_map *map, t_coor pos, t_bool *exit_is_reach);
 //
 //	Impresion del mapa 
 //
-int		get_items(t_map	map);
-t_img	*get_imgs(t_mlx	*mlx, char	*pathtoimgs);
-void	print_floor(t_map	map, t_img	floor, t_mlx	*mlx);
-void	print_static(t_map	map, t_img	*images, t_mlx	*mlx);
-void	print_player(t_player	*one, t_mlx	*mlx);
-int		reload_map(t_game	*game);
+int			get_items(t_map	map);
+t_img		*get_imgs(t_mlx	*mlx, char	*pathtoimgs);
+void		print_floor(t_map	map, t_img	floor, t_mlx	*mlx);
+void		print_static(t_map	map, t_img	*images, t_mlx	*mlx);
+void		print_player(t_player	*one, t_mlx	*mlx);
+int			reload_map(t_game	*game);
 //
 //	Jugador
 //
@@ -120,14 +155,16 @@ void		collect(t_game	*game);
 int			is_exit(t_game	*game);
 //	Movimiento del jugador
 //
-int			listener(int	keycode, t_game	*game);
+int			listener(int keycode, t_game	*game);
 t_bool		is_reacheble(t_coor	pos, t_coor	next_pos);
 t_bool		check_move(t_game	*game, t_coor	next_pos);
-t_bool		check_map(t_map *map, t_coor pos, t_bool *exit_is_reach);
 void		move_player(t_game	*game, t_coor	move);
-void		print_moves(int	moves);
+void		print_moves(int moves);
 //
 // Errores
 //
-void	clear_matrix(void	***m, int index);
+void		clear_matrix(void	***m, int index);
+void		spawn_error_message(const char *message);
+void		select_error(t_err_code code);
+t_err_code	error(t_game *d, t_err_code error);
 #endif

@@ -15,7 +15,7 @@
 void	clear_matrix(void	***m, int index)
 {
 	if (m == NULL)
-		return;
+		return ;
 	if (*m == NULL)
 		return (free(m));
 	while (index >= 0)
