@@ -6,7 +6,7 @@
 /*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 19:55:39 by iortego-          #+#    #+#             */
-/*   Updated: 2023/08/13 18:50:32 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/02 12:56:57 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,30 @@
 // 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 // 								&img.endian);
 // }
-t_err_code	init(t_game *game)
+t_err_code	init(t_game **game)
 {
 	t_err_code	error_code;
 
+	*game = (t_game *)malloc(sizeof(t_game));
 	if (!game)
 		return (EC_MALLOC);
-	game->mlx = (t_mlx *)malloc(sizeof(t_mlx));
-	if (!game->mlx)
+	(*game)->mlx = (t_mlx *)malloc(sizeof(t_mlx));
+	if (!(*game)->mlx)
 		return (EC_MALLOC);
-	game->map = open_file(MAP_PATH, (void *)get_map);
-	if (!game->map)
+	(*game)->map = open_file(MAP_PATH, (void *)get_map);
+	if (!(*game)->map)
 		return (EC_MALLOC);
-	error_code = parse_map(game->map);
+	error_code = parse_map((*game)->map);
 	if (error_code)
 		return (error_code);
-	game->mlx->mlx = mlx_init();
-	game->mlx->win = mlx_new_window(game->mlx->mlx, game->map->dim.x
-			* IMG_WIDTH, game->map->dim.y * IMG_HEIGHT, "so_long");
-	game->imgs = get_imgs(game->mlx, IMG_PATH);
-	if (!game->imgs)
+	(*game)->mlx->mlx = mlx_init();
+	(*game)->mlx->win = mlx_new_window((*game)->mlx->mlx, (*game)->map->dim.x
+			* IMG_WIDTH, (*game)->map->dim.y * IMG_HEIGHT, "so_long");
+	(*game)->imgs = get_imgs((*game)->mlx, IMG_PATH);
+	if (!(*game)->imgs)
 		return (EC_MALLOC);
-	game->player = player_constructor(*game->map, &game->imgs[P]);
-	if (!game->player)
+	(*game)->player = player_constructor(*(*game)->map, &(*game)->imgs[P]);
+	if (!(*game)->player)
 		return (EC_MALLOC);
 	return (OK);
 }
@@ -81,7 +82,7 @@ int	main(void)
 	t_err_code	status;
 
 	game = NULL;
-	status = init(game);
+	status = init(&game);
 	if (status != OK)
 		return (error(game, status));
 	status = valid_map(game);

@@ -6,7 +6,7 @@
 /*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 19:56:01 by iortego-          #+#    #+#             */
-/*   Updated: 2023/08/13 18:50:10 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/02 12:57:45 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static const char* g_error_mess[EC_SIZE] = {
 [EC_NOT_FILE] = "File not found\n",
 [EC_NOT_IMG] = "Could not find images\n",
 };
-t_err_code	init(t_game *game);
+t_err_code	init(t_game **game);
 //
 //	Parseo del mapa
 //		- Simetria
