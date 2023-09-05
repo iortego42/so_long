@@ -6,7 +6,7 @@
 /*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 19:55:39 by iortego-          #+#    #+#             */
-/*   Updated: 2023/09/02 12:56:57 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/05 19:17:43 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_err_code	init(t_game **game)
 	t_err_code	error_code;
 
 	*game = (t_game *)malloc(sizeof(t_game));
-	if (!game)
+	if (!*game)
 		return (EC_MALLOC);
 	(*game)->mlx = (t_mlx *)malloc(sizeof(t_mlx));
 	if (!(*game)->mlx)

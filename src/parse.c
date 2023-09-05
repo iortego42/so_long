@@ -6,7 +6,7 @@
 /*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 18:33:12 by iortego-          #+#    #+#             */
-/*   Updated: 2023/08/13 18:29:01 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/05 19:37:17 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ t_bool	is_one_player_exit(t_map	*map)
 		{
 			if (map->map[coor.y][coor.x] == ITEMS[P])
 				players++;
-			if (map->map[coor.y][coor.x] == ITEMS[E])
-				exit++;
+			if (map->map[coor.y][coor.x] == ITEMS[E] && ++exit)
+				map->exit = coor;
 			if (players > 1 || exit > 1)
 				return (FALSE);
 			coor.x++;
