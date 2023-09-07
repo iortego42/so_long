@@ -32,10 +32,6 @@
 # include <fcntl.h>
 # include "get_next_line.h"
 
-
-
-
-
 typedef enum s_item {
 	F,
 	W,
@@ -44,6 +40,7 @@ typedef enum s_item {
 	P,
 	N_ITEMS
 }	t_item;
+
 typedef enum s_err {
 	OK,
 	EC_UNDEFINED,
@@ -56,6 +53,7 @@ typedef enum s_err {
 	EC_NOT_VALID_MAP,
 	EC_NOT_FILE,
 	EC_NOT_IMG,
+	EC_INVALID_ARGS,
 	EC_SIZE
 }	t_err_code;
 
@@ -119,8 +117,10 @@ static const char* g_error_mess[EC_SIZE] = {
 [EC_NOT_VALID_MAP] = "Not valid map\n",
 [EC_NOT_FILE] = "File not found\n",
 [EC_NOT_IMG] = "Could not find images\n",
+[EC_INVALID_ARGS] = "Invalid number of arguments\n",
 };
-t_err_code	init(t_game **game);
+t_err_code	get_map_path(int	argc, char	*argv[]);
+t_err_code	init(t_game **game, char	*map_path);
 //
 //	Parseo del mapa
 //		- Simetria
@@ -128,7 +128,7 @@ t_err_code	init(t_game **game);
 //		- Salida valida
 //		- Rodeado de pared
 //	
-void		*open_file(char *file, void	*(*fun)(int));
+t_err_code	open_file(char *file, void	*(*fun)(int), void	**data);
 t_map		*get_map(int fd);
 int			get_line_lenght(char	*line);
 t_bool		is_valid_char(t_map	*map);

@@ -29,7 +29,7 @@
 // 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 // 								&img.endian);
 // }
-t_err_code	init(t_game **game)
+t_err_code	init(t_game **game,char	*map_path)
 {
 	t_err_code	error_code;
 
@@ -39,9 +39,9 @@ t_err_code	init(t_game **game)
 	(*game)->mlx = (t_mlx *)malloc(sizeof(t_mlx));
 	if (!(*game)->mlx)
 		return (EC_MALLOC);
-	(*game)->map = open_file(MAP_PATH, (void *)get_map);
-	if (!(*game)->map)
-		return (EC_MALLOC);
+	error_code = open_file(map_path, (void *)get_map, (void	**)&(*game)->map);
+	if (error_code)
+		return (error_code);
 	error_code = parse_map((*game)->map);
 	if (error_code)
 		return (error_code);
@@ -59,11 +59,9 @@ t_err_code	init(t_game **game)
 
 static	t_err_code	valid_map(t_game *game)
 {
-	t_err_code	status;
 	t_map		*copy;
 	t_bool		*exit;
 
-	status = OK;
 	exit = (t_bool *) malloc(sizeof(t_bool));
 	if (!exit)
 		return (EC_MALLOC);
@@ -76,13 +74,15 @@ static	t_err_code	valid_map(t_game *game)
 	return (free(exit), OK);
 }
 
-int	main(void)
+int	main(int	argc,	char	*argv[])
 {
 	t_game		*game;
 	t_err_code	status;
 
 	game = NULL;
-	status = init(&game);
+	if (argc != 2)
+		return (error(game, EC_INVALID_ARGS));
+	status = init(&game, argv[argc - 1]);
 	if (status != OK)
 		return (error(game, status));
 	status = valid_map(game);

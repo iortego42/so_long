@@ -42,7 +42,8 @@ void	delete_data(t_game *d)
 
 t_err_code	error(t_game *d, t_err_code error)
 {
-	delete_data(d);
+	if (d)
+		delete_data(d);
 	select_error(error);
 	return (error);
 }

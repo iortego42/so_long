@@ -34,7 +34,7 @@ void print_checkmap(t_map map) {
 }
 t_bool	check_map(t_map *map, t_coor pos, t_bool *exit_is_reach)
 {
-	usleep(100000);
+	// usleep(100000);
 	ft_putstr_fd("\033c",1);
 	print_checkmap(*map);
 	if (map->map[pos.y][pos.x] == ITEMS[W])

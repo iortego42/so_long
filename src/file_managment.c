@@ -67,27 +67,25 @@ t_img	*get_imgs(t_mlx	*mlx, char	*pathtoimgs)
 	return (images);
 }
 
-void	*open_file(char *file, void *(*fun)(int))
+t_err_code	open_file(char *file, void *(*fun)(int), void **data)
 {
 	int		fd;
-	void	*data;
-	char	*path;
 
-	if (fun == NULL)
-		return (NULL);
-	path = ft_strjoin(PATH, file);
-	if (extension(path, ALLOWED_EXT) == FALSE)
-		return (free(path), NULL);
-	fd = open(path, O_RDONLY);
-	free(path);
+	if (fun == NULL && file == NULL)
+		return (EC_UNDEFINED);
+	if (extension(file, ALLOWED_EXT) == FALSE)
+		return (EC_NOT_VALID_MAP);
+	fd = open(file, O_RDONLY);
 	if (fd > 0)
 	{
-		data = fun(fd);
+		*data = fun(fd);
 		close(fd);
-		return (data);
+		if (*data == NULL)
+			return (EC_UNDEFINED);
+		return (OK);
 	}
 	else
-		return (NULL);
+		return (EC_NOT_FILE);
 }
 
 t_map	*get_map(int fd)
