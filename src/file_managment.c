@@ -71,6 +71,7 @@ t_err_code	open_file(char *file, void *(*fun)(int), void **data)
 {
 	int		fd;
 
+	*data = NULL;
 	if (fun == NULL && file == NULL)
 		return (EC_UNDEFINED);
 	if (extension(file, ALLOWED_EXT) == FALSE)

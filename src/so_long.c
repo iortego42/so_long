@@ -73,7 +73,10 @@ static	t_err_code	valid_map(t_game *game)
 		return (free(exit), EC_NOT_VALID_MAP);
 	return (free(exit), OK);
 }
-
+void leaks()
+{
+	system("leaks solong");
+}
 int	main(int	argc,	char	*argv[])
 {
 	t_game		*game;
@@ -91,7 +94,8 @@ int	main(int	argc,	char	*argv[])
 	reload_map(game);
 	mlx_key_hook(game->mlx->win, listener, game);
 	mlx_loop_hook(game->mlx->mlx, reload_map, game);
-	mlx_hook(game->mlx->win, 17, 0L, (int (*)()) exit, 0);
+	mlx_hook(game->mlx->win, 17, 0L, (int (*)()) delete_data, &game);
 	mlx_loop(game->mlx->mlx);
+	system("leaks solong");
 	return (0);
 }

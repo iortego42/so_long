@@ -27,16 +27,15 @@ t_map	*copy_map(t_map map)
 	copy->dim = map.dim;
 	return (copy);
 }
-void print_checkmap(t_map map) {
+/*void print_checkmap(t_map map) {
 	int a = 0;
+	usleep(100000);
+	ft_putstr_fd("\033c",1);
 	while (map.map[a] != NULL)
 		ft_putstr_fd(map.map[a++], 1);
-}
+}*/
 t_bool	check_map(t_map *map, t_coor pos, t_bool *exit_is_reach)
 {
-	// usleep(100000);
-	ft_putstr_fd("\033c",1);
-	print_checkmap(*map);
 	if (map->map[pos.y][pos.x] == ITEMS[W])
 		return (FALSE);
 	if (map->map[pos.y][pos.x] == ITEMS[C])

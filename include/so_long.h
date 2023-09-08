@@ -164,6 +164,8 @@ void		print_moves(int moves);
 // Errores
 //
 void		clear_matrix(void	***m, int index);
+void		clear_map(t_map	**map);
+void		delete_data(t_game	*d);
 void		spawn_error_message(const char *message);
 void		select_error(t_err_code code);
 t_err_code	error(t_game *d, t_err_code error);

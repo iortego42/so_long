@@ -14,11 +14,15 @@
 
 void	clear_map(t_map	**map)
 {
-	clear_matrix((void ***)&(*map)->map, (*map)->dim.y);
-	if ((*map)->path != NULL)
+	if (map != NULL && *map != NULL)
 	{
-		free((*map)->path);
-		(*map)->path = NULL;
+		if ((*map)->map != NULL)
+			clear_matrix((void ***)&(*map)->map, (*map)->dim.y);
+		if ((*map)->path != NULL)
+		{
+			free((*map)->path);
+			(*map)->path = NULL;
+		}
 	}
 }
 
@@ -37,7 +41,8 @@ void	select_error(t_err_code code)
 
 void	delete_data(t_game *d)
 {
-	clear_map(&d->map);
+		if (d->map != NULL)
+			clear_map(&d->map);
 }
 
 t_err_code	error(t_game *d, t_err_code error)
