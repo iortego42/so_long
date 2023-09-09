@@ -6,7 +6,7 @@
 /*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 19:56:01 by iortego-          #+#    #+#             */
-/*   Updated: 2023/09/05 18:43:30 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/09 18:41:42 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # define KEY_A		0
 # define KEY_S		1
 # define KEY_D		2
-
 
 # include "mlx.h"
 # include "libft.h"
@@ -80,7 +79,6 @@ typedef struct s_map {
 	t_coor	dim;
 	int		items;
 	t_coor	exit;
-	char	*path;
 }	t_map;
 
 typedef struct s_mlx {
@@ -92,13 +90,11 @@ typedef struct s_game {
 	t_bool		can_exit;
 	t_player	*player;
 	t_map		*map;
-	t_mlx		*mlx;
 	t_img		*imgs;
+	t_mlx		*mlx;
 }	t_game;
 
-
-
-static const char* g_imgfiles[N_ITEMS] = {
+static const char	*g_imgfiles[N_ITEMS] = {
 [C] = "floor.xpm",
 [P] = "wall.xpm",
 [F] = "collectionable.xpm",
@@ -106,7 +102,7 @@ static const char* g_imgfiles[N_ITEMS] = {
 [E] = "player.xpm"
 };
 
-static const char* g_error_mess[EC_SIZE] = {
+static const char	*g_error_mess[EC_SIZE] = {
 [EC_UNDEFINED] = "\033[35mUndefined\033[0m\n",
 [EC_INVALID_CHAR] = "Invalid char on map\n",
 [EC_NO_EXIT] = "Invalid number of exit on map\n",
@@ -119,8 +115,7 @@ static const char* g_error_mess[EC_SIZE] = {
 [EC_NOT_IMG] = "Could not find images\n",
 [EC_INVALID_ARGS] = "Invalid number of arguments\n",
 };
-t_err_code	get_map_path(int	argc, char	*argv[]);
-t_err_code	init(t_game **game, char	*map_path);
+t_err_code	init(t_game **game, t_mlx **mlx, char	*map_path);
 //
 //	Parseo del mapa
 //		- Simetria

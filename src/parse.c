@@ -6,7 +6,7 @@
 /*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 18:33:12 by iortego-          #+#    #+#             */
-/*   Updated: 2023/09/05 19:37:17 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/09 17:02:43 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ t_bool	is_valid_char(t_map	*map)
 	while (map->map[coor.y] != NULL)
 	{
 		coor.x = 0;
-		while (map->map[coor.y][coor.x] != '\n')
+		while (map->map[coor.y][coor.x] != '\n'
+			&& map->map[coor.y][coor.x] != 0)
 		{
 			if (ft_strchr(ITEMS, map->map[coor.y][coor.x]) == NULL)
 				return (FALSE);
@@ -50,7 +51,8 @@ t_bool	is_walled(t_map *map)
 	while (map->map[coor.y] != NULL)
 	{
 		coor.x = 0;
-		while (map->map[coor.y][coor.x] != '\n')
+		while (map->map[coor.y][coor.x] != '\n'
+			&& map->map[coor.y][coor.x] != 0)
 		{
 			if (coor.x == 0 || coor.x == map->dim.x - 1
 				|| coor.y == 0 || coor.y == map->dim.y - 1)
@@ -75,7 +77,8 @@ t_bool	is_one_player_exit(t_map	*map)
 	while (map->map[coor.y])
 	{
 		coor.x = 0;
-		while (map->map[coor.y][coor.x] != '\n')
+		while (map->map[coor.y][coor.x] != '\n'
+			&& map->map[coor.y][coor.x] != 0)
 		{
 			if (map->map[coor.y][coor.x] == ITEMS[P])
 				players++;

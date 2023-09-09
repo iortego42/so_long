@@ -6,7 +6,7 @@
 /*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 19:55:39 by iortego-          #+#    #+#             */
-/*   Updated: 2023/09/05 19:17:43 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/09 18:24:17 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,30 +29,30 @@
 // 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 // 								&img.endian);
 // }
-t_err_code	init(t_game **game,char	*map_path)
+t_err_code	init(t_game **game, t_mlx **mlx, char *map_path)
 {
 	t_err_code	error_code;
 
 	*game = (t_game *)malloc(sizeof(t_game));
 	if (!*game)
 		return (EC_MALLOC);
-	(*game)->mlx = (t_mlx *)malloc(sizeof(t_mlx));
-	if (!(*game)->mlx)
-		return (EC_MALLOC);
-	error_code = open_file(map_path, (void *)get_map, (void	**)&(*game)->map);
+	**game = (t_game){.player = NULL, .map = NULL, .mlx = NULL, .imgs = NULL};
+	error_code = open_file(map_path, (void *)get_map, (void **)&(*game)->map);
 	if (error_code)
 		return (error_code);
 	error_code = parse_map((*game)->map);
 	if (error_code)
 		return (error_code);
-	(*game)->mlx->mlx = mlx_init();
-	(*game)->mlx->win = mlx_new_window((*game)->mlx->mlx, (*game)->map->dim.x
-			* IMG_WIDTH, (*game)->map->dim.y * IMG_HEIGHT, "so_long");
-	(*game)->imgs = get_imgs((*game)->mlx, IMG_PATH);
-	if (!(*game)->imgs)
+	*mlx = (t_mlx *)malloc(sizeof(t_mlx));
+	(*game)->mlx = *mlx;
+	if (!*mlx)
 		return (EC_MALLOC);
+	(*mlx)->mlx = mlx_init();
+	(*mlx)->win = mlx_new_window((*mlx)->mlx, (*game)->map->dim.x
+			* IMG_WIDTH, (*game)->map->dim.y * IMG_HEIGHT, "so_long");
+	(*game)->imgs = get_imgs(*mlx, IMG_PATH);
 	(*game)->player = player_constructor(*(*game)->map, &(*game)->imgs[P]);
-	if (!(*game)->player)
+	if (!(*game)->player || !(*game)->imgs)
 		return (EC_MALLOC);
 	return (OK);
 }
@@ -71,31 +71,36 @@ static	t_err_code	valid_map(t_game *game)
 		return (free(exit), EC_MALLOC);
 	if (!check_map(copy, game->player->pos, exit))
 		return (free(exit), EC_NOT_VALID_MAP);
-	return (free(exit), OK);
+	free(exit);
+	clear_map(&copy);
+	return (OK);
 }
-void leaks()
+
+void	leaks(void)
 {
-	system("leaks solong");
+	system("leaks so_long");
 }
-int	main(int	argc,	char	*argv[])
+
+int	main(int argc,	char *argv[])
 {
 	t_game		*game;
+	t_mlx		*mlx;
 	t_err_code	status;
 
 	atexit(leaks);
 	game = NULL;
 	if (argc != 2)
 		return (error(game, EC_INVALID_ARGS));
-	status = init(&game, argv[argc - 1]);
+	status = init(&game, &mlx, argv[argc - 1]);
 	if (status != OK)
 		return (error(game, status));
 	status = valid_map(game);
 	if (status != OK)
 		return (error(game, status));
 	reload_map(game);
-	mlx_key_hook(game->mlx->win, listener, game);
-	mlx_loop_hook(game->mlx->mlx, reload_map, game);
-	mlx_hook(game->mlx->win, 17, 0L, (int (*)()) delete_data, &game);
-	mlx_loop(game->mlx->mlx);
+	mlx_key_hook(mlx->win, listener, game);
+	mlx_loop_hook(mlx->mlx, reload_map, game);
+	mlx_hook(mlx->win, 17, 0L, (int (*)()) exit, 0);
+	mlx_loop(mlx->mlx);
 	return (0);
 }

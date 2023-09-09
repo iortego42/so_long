@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iortego- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 18:40:00 by iortego-          #+#    #+#             */
-/*   Updated: 2023/07/23 15:57:17 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/09 17:03:39 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_floor(t_map map, t_img floor, t_mlx *mlx)
 	while (map.map[coor.y] != NULL)
 	{
 		coor.x = 0;
-		while (map.map[coor.y][coor.x] != '\n')
+		while (map.map[coor.y][coor.x] != '\n' && map.map[coor.y][coor.x] != 0)
 		{
 			mlx_put_image_to_window(mlx->mlx, mlx->win, floor.img,
 				coor.x * IMG_WIDTH, coor.y * IMG_HEIGHT);
@@ -38,7 +38,7 @@ void	print_static(t_map map, t_img *images, t_mlx *mlx)
 	while (map.map[coor.y] != NULL)
 	{
 		coor.x = 0;
-		while (map.map[coor.y][coor.x] != '\n')
+		while (map.map[coor.y][coor.x] != '\n' && map.map[coor.y][coor.x] != 0)
 		{
 			if (map.map[coor.y][coor.x] == ITEMS[W])
 				mlx_put_image_to_window(mlx->mlx, mlx->win, images[W].img,

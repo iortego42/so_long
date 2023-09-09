@@ -6,7 +6,7 @@
 /*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 20:17:02 by iortego-          #+#    #+#             */
-/*   Updated: 2023/09/06 20:39:04 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/09 16:38:02 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_map	*copy_map(t_map map)
 	copy->dim = map.dim;
 	return (copy);
 }
+
 /*void print_checkmap(t_map map) {
 	int a = 0;
 	usleep(100000);
@@ -34,6 +35,7 @@ t_map	*copy_map(t_map map)
 	while (map.map[a] != NULL)
 		ft_putstr_fd(map.map[a++], 1);
 }*/
+
 t_bool	check_map(t_map *map, t_coor pos, t_bool *exit_is_reach)
 {
 	if (map->map[pos.y][pos.x] == ITEMS[W])

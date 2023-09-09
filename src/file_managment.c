@@ -6,7 +6,7 @@
 /*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 18:33:29 by iortego-          #+#    #+#             */
-/*   Updated: 2023/08/13 18:19:05 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/09 18:35:00 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 #include "libft.h"
 #include "mlx.h"
 #include "so_long.h"
-
-
-
 
 t_bool	is_sym(t_map *map)
 {

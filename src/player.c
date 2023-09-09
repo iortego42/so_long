@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iortego- <iortego-@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 13:41:35 by iortego-          #+#    #+#             */
-/*   Updated: 2023/07/23 16:02:14 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/09 18:39:17 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-// Mas de 25 lineas
+
 t_player	*player_constructor(t_map	map, t_img *img)
 {
 	t_player	*self;
@@ -22,15 +22,14 @@ t_player	*player_constructor(t_map	map, t_img *img)
 		|| map.map == NULL || map.map[0] == NULL || map.map[0][0] == 0)
 		return (NULL);
 	self = (t_player *)malloc(sizeof(t_player));
-	self->move_counter = 0;
 	if (!self)
 		return (NULL);
-	self->pos.x = -1;
-	self->pos.y = -1;
+	self->move_counter = 0;
+	self->pos = (t_coor){.y = -1, .x = -1};
 	while (map.map[coor.y] != NULL && self->pos.x == -1)
 	{
 		coor.x = 0;
-		while (map.map[coor.y][coor.x] != '\n' && self->pos.x == -1) 
+		while (map.map[coor.y][coor.x] != '\n' && self->pos.x == -1)
 		{
 			if (map.map[coor.y][coor.x] == ITEMS[P])
 				self->pos = (t_coor){.y = coor.y, .x = coor.x};
@@ -62,7 +61,7 @@ void	print_moves(int moves)
 	ft_putstr_fd(movestr, 1);
 	free(movestr);
 	movestr = NULL;
-	ft_putstr_fd("\r", 1);
+	ft_putstr_fd("\033[0m\r", 1);
 }
 
 t_bool	check_move(t_game	*game, t_coor	next_pos)
@@ -70,7 +69,6 @@ t_bool	check_move(t_game	*game, t_coor	next_pos)
 	t_item	position;
 
 	position = game->map->map[next_pos.y][next_pos.x];
-
 	if (position == ITEMS[W] || !is_reacheble(game->player->pos, next_pos))
 		return (FALSE);
 	else if (position == ITEMS[E] && game->map->items != 0)
@@ -92,12 +90,11 @@ void	move_player(t_game	*game, t_coor	move)
 			game->map->map[next_pos.y][next_pos.x] = ITEMS[F];
 		}
 		else if (game->map->map[next_pos.y][next_pos.x] == ITEMS[E])
-			return (delete_data(game));
-		game->map->map[game->player->pos.y][game->player->pos.x] = ITEMS[F]; 
+			exit(0);
+		game->map->map[game->player->pos.y][game->player->pos.x] = ITEMS[F];
 		game->player->pos = next_pos;
-		game->map->map[game->player->pos.y][game->player->pos.x] = ITEMS[P]; 
+		game->map->map[game->player->pos.y][game->player->pos.x] = ITEMS[P];
 		game->player->move_counter++;
-
 		print_moves(game->player->move_counter);
 	}
 }

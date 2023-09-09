@@ -6,7 +6,7 @@
 /*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 20:11:53 by iortego-          #+#    #+#             */
-/*   Updated: 2023/08/13 18:54:57 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/09 18:37:16 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,9 @@ void	clear_map(t_map	**map)
 	{
 		if ((*map)->map != NULL)
 			clear_matrix((void ***)&(*map)->map, (*map)->dim.y);
-		if ((*map)->path != NULL)
-		{
-			free((*map)->path);
-			(*map)->path = NULL;
-		}
 	}
+	free(*map);
+	*map = NULL;
 }
 
 void	spawn_error_message(const char *message)
@@ -41,8 +38,14 @@ void	select_error(t_err_code code)
 
 void	delete_data(t_game *d)
 {
-		if (d->map != NULL)
-			clear_map(&d->map);
+	if (d->map != NULL)
+		clear_map(&d->map);
+	if (d->player != NULL)
+	{
+		free(d->player);
+		d->player = NULL;
+	}
+	free(d);
 }
 
 t_err_code	error(t_game *d, t_err_code error)
