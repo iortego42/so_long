@@ -18,12 +18,11 @@ void	clear_matrix(void	***m, int index)
 		return ;
 	if (*m == NULL)
 		return (free(m));
-	while (index >= 0)
+	while (--index >= 0)
 	{
-		free(m[index]);
-		m[index] = NULL;
-		index--;
+		free((*m)[index]);
+		(*m)[index] = NULL;
 	}
-	free(m);
-	m = NULL;
+	free(*m);
+	*m = NULL;
 }

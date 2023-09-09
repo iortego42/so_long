@@ -92,7 +92,7 @@ void	move_player(t_game	*game, t_coor	move)
 			game->map->map[next_pos.y][next_pos.x] = ITEMS[F];
 		}
 		else if (game->map->map[next_pos.y][next_pos.x] == ITEMS[E])
-			exit(0);
+			return (delete_data(game));
 		game->map->map[game->player->pos.y][game->player->pos.x] = ITEMS[F]; 
 		game->player->pos = next_pos;
 		game->map->map[game->player->pos.y][game->player->pos.x] = ITEMS[P]; 

@@ -64,7 +64,7 @@ int	get_items(t_map	map)
 	while (map.map[coor.y] != NULL)
 	{
 		coor.x = 0;
-		while (map.map[coor.y][coor.x] != '\n')
+		while (map.map[coor.y][coor.x] != '\n' && map.map[coor.y][coor.x] != 0)
 		{
 			if (map.map[coor.y][coor.x] == ITEMS[C])
 				map.items++;

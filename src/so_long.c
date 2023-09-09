@@ -82,6 +82,7 @@ int	main(int	argc,	char	*argv[])
 	t_game		*game;
 	t_err_code	status;
 
+	atexit(leaks);
 	game = NULL;
 	if (argc != 2)
 		return (error(game, EC_INVALID_ARGS));
@@ -96,6 +97,5 @@ int	main(int	argc,	char	*argv[])
 	mlx_loop_hook(game->mlx->mlx, reload_map, game);
 	mlx_hook(game->mlx->win, 17, 0L, (int (*)()) delete_data, &game);
 	mlx_loop(game->mlx->mlx);
-	system("leaks solong");
 	return (0);
 }
