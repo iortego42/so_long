@@ -6,7 +6,7 @@
 /*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 20:11:53 by iortego-          #+#    #+#             */
-/*   Updated: 2023/09/09 18:37:16 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/12 20:28:19 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,14 @@ void	delete_data(t_game *d)
 		clear_map(&d->map);
 	if (d->player != NULL)
 	{
+		if (d->player->img_s->path)
+			free(d->player->img_s->path);
 		free(d->player);
 		d->player = NULL;
 	}
+	if (d->imgs)
+		clear_imgs(&d->imgs);
+
 	free(d);
 }
 

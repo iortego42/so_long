@@ -6,7 +6,7 @@
 /*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 19:56:01 by iortego-          #+#    #+#             */
-/*   Updated: 2023/09/09 18:41:42 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/12 19:22:07 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ static const char	*g_error_mess[EC_SIZE] = {
 [EC_NOT_IMG] = "Could not find images\n",
 [EC_INVALID_ARGS] = "Invalid number of arguments\n",
 };
-t_err_code	init(t_game **game, t_mlx **mlx, char	*map_path);
+t_err_code	init(t_game **game, char	*map_path);
 //
 //	Parseo del mapa
 //		- Simetria
@@ -160,6 +160,7 @@ void		print_moves(int moves);
 //
 void		clear_matrix(void	***m, int index);
 void		clear_map(t_map	**map);
+void		clear_imgs(t_img	**imgs);
 void		delete_data(t_game	*d);
 void		spawn_error_message(const char *message);
 void		select_error(t_err_code code);
