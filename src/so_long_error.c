@@ -6,7 +6,7 @@
 /*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 20:11:53 by iortego-          #+#    #+#             */
-/*   Updated: 2023/09/12 20:28:19 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/16 11:07:17 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,13 @@ void	delete_data(t_game *d)
 		d->player = NULL;
 	}
 	if (d->imgs)
-		clear_imgs(&d->imgs);
-
+		clear_imgs(d->mlx, &d->imgs);
+	if (d->mlx)
+	{
+		mlx_destroy_window(d->mlx->mlx, d->mlx->win);
+		d->mlx->win = NULL;
+		free(d->mlx);
+	}
 	free(d);
 }
 
@@ -58,5 +63,5 @@ t_err_code	error(t_game *d, t_err_code error)
 	if (d)
 		delete_data(d);
 	select_error(error);
-	return (error);
+	exit(error);
 }

@@ -6,7 +6,7 @@
 /*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 19:56:01 by iortego-          #+#    #+#             */
-/*   Updated: 2023/09/12 19:22:07 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/16 11:09:22 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,11 @@ typedef struct s_game {
 }	t_game;
 
 static const char	*g_imgfiles[N_ITEMS] = {
-[C] = "floor.xpm",
-[P] = "wall.xpm",
-[F] = "collectionable.xpm",
-[W] = "exit.xpm",
-[E] = "player.xpm"
+[F] = "floor.xpm",
+[W] = "wall.xpm",
+[C] = "collectionable.xpm",
+[E] = "exit.xpm",
+[P] = "player.xpm"
 };
 
 static const char	*g_error_mess[EC_SIZE] = {
@@ -160,7 +160,7 @@ void		print_moves(int moves);
 //
 void		clear_matrix(void	***m, int index);
 void		clear_map(t_map	**map);
-void		clear_imgs(t_img	**imgs);
+void		clear_imgs(t_mlx	*mlx, t_img	**imgs);
 void		delete_data(t_game	*d);
 void		spawn_error_message(const char *message);
 void		select_error(t_err_code code);

@@ -6,7 +6,7 @@
 /*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 18:24:11 by iortego-          #+#    #+#             */
-/*   Updated: 2023/09/12 19:46:22 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/16 11:11:06 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	clear_matrix(void	***m, int index)
 	*m = NULL;
 }
 
-void	clear_imgs(t_img	**imgs)
+void	clear_imgs(t_mlx *mlx, t_img	**imgs)
 {
 	int	index;
 
@@ -43,7 +43,7 @@ void	clear_imgs(t_img	**imgs)
 		}
 		if ((*imgs)[index].img != NULL)
 		{
-			free((*imgs)[index].img);
+			mlx_destroy_image(mlx->mlx, (*imgs)[index].img);
 			(*imgs)[index].img = NULL;
 		}
 		index++;

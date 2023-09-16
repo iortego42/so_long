@@ -6,7 +6,7 @@
 /*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 19:55:39 by iortego-          #+#    #+#             */
-/*   Updated: 2023/09/12 19:17:06 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/16 11:05:44 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	main(int argc,	char *argv[])
 {
 	t_game		*game;
 	t_err_code	status;
+	void		*mlx;
 
 	atexit(leaks);
 	game = NULL;
@@ -96,6 +97,7 @@ int	main(int argc,	char *argv[])
 	status = init(&game, argv[argc - 1]);
 	if (status != OK)
 		return (error(game, status));
+	mlx = game->mlx->mlx;
 	status = valid_map(game);
 	if (status != OK)
 		return (error(game, status));

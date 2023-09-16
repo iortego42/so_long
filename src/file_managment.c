@@ -6,7 +6,7 @@
 /*   By: iortego- <iortego-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 18:33:29 by iortego-          #+#    #+#             */
-/*   Updated: 2023/09/09 18:35:00 by iortego-         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:41:51 by iortego-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_img	*get_imgs(t_mlx	*mlx, char	*pathtoimgs)
 		if (images[item].img == NULL)
 		{
 			while (item-- >= 0)
-				free(images[item].img);
+				mlx_destroy_image(mlx->mlx, images[item].img);
 			return (free(images), NULL);
 		}
 		item++;
